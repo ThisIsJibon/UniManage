@@ -4,6 +4,7 @@ const app = express();
 const helmet = require("helmet");
 const cors = require("cors");
 const authRouter = require("./routers/authRouter");
+const userRouter = require("./routers/userRouter");
 const session = require("express-session");
 const server = require("http").createServer(app);
 require("dotenv").config();
@@ -38,6 +39,7 @@ app.use(
   })
 );
 app.use("/auth", authRouter);
+app.use("/user",userRouter);
 
 io.on("connect", socket => {});
 
