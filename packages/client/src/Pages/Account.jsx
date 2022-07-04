@@ -51,7 +51,6 @@ const Account = () => {
         body: JSON.stringify(body),
       });
       
-      window.location = "/account";
     }catch(err){
       console.log(err.message);
     }
