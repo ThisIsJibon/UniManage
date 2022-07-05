@@ -261,8 +261,10 @@ SELECT * FROM Time_Slot;
 --JOINS
 
 -- results
-SELECT * FROM student S 
-INNER JOIN Course_Enrollment ON Course_Enrollment.reg_no=s.reg_no 
-INNER JOIN Section ON Course_Enrollment.section_id= Section.section_id 
-INNER JOIN Course ON Course.course_id=Section.course_id
-ORDER BY s.reg_no;
+select
+  * 
+from student s
+  inner join course_enrollment e using (reg_no) 
+  inner join section se using (section_id) 
+  inner join course c using (course_id)
+order by s.reg_no;
