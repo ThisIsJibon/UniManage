@@ -3,7 +3,9 @@ import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AccountContext } from "./AccountContext";
 import Login from "./Login/Login";
+import TestLogin from "./Login/TestLogin";
 import SignUp from "./Login/SignUp";
+import TestSignUp from "./Login/TestSignUp";
 import PrivateRoutes from "./PrivateRoutes";
 import Home from "../Pages/Home";
 import Result from "../Pages/Results";
@@ -17,8 +19,8 @@ const Views = () => {
     <Text>Loading...</Text>
   ) : (
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<SignUp />} />
+      <Route path="/" element={<TestLogin />} />
+      <Route path="/register" element={<TestSignUp />} />
       <Route element={<PrivateRoutes />}>
         <Route path="/home" element={<Home />} />
       </Route>
@@ -26,7 +28,7 @@ const Views = () => {
       <Route path="/Account" element={<Account />} />
       <Route path="/CourseRegistration" element={<CourseRegistration />} />
       <Route path="/Schedules" element={<Schedules />} />
-      <Route path="*" element={<Login />} />
+      <Route path="*" element={<TestLogin />} />
     </Routes>
   );
 };

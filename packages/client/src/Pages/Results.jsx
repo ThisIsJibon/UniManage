@@ -3,7 +3,6 @@ import  UniNavbar  from './UniNavbar'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
 
-
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'Course ID', width: 130 },
   { field: 'title', headerName: 'Course Title', width: 350 },
@@ -49,6 +48,7 @@ function Results() {
   return (
     <div>
       <UniNavbar/>
+      
       <span className="result-query-span">
         <input type="search" id="registration-input" name="q" placeholder ="Registration"/>
         <input type="search" id="semseter-input" name="q" placeholder ="Semester"/>
