@@ -13,8 +13,8 @@ INSERT INTO users(username, passhash) values($1,$2);
 CREATE TABLE Student (
   reg_no INTEGER PRIMARY KEY,
   name TEXT,
-  dept_id TEXT NOT NULL,
-  session INTEGER NOT NULL,
+  dept_id TEXT,
+  session INTEGER,
   address TEXT
 );
 

@@ -12,6 +12,7 @@ const SignUp = () => {
   const { setUser } = useContext(AccountContext);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const canNavigate = false;
   return (
     <ChakraProvider>
         <Formik
@@ -50,11 +51,14 @@ const SignUp = () => {
                     if (!data) return;
                     setUser({ ...data });
                     if (data.status) {
-                    setError(data.status);
+                    setError(data.status); 
                     } else if (data.loggedIn) {
                     navigate("/home");
                     }
                 });
+               
+               
+
             }}
             >
             <VStack

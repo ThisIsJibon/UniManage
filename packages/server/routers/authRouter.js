@@ -57,6 +57,11 @@ router.post("/signup", async (req, res) => {
       "INSERT INTO users(username, passhash) values($1,$2) RETURNING id, username",
       [req.body.username, hashedPass]
     );
+    
+    const newStudentQuery = await pool.query(
+      "INSERT INTO student(reg_no) values($1)",[req.body.username]
+    );
+
     req.session.user = {
       username: req.body.username,
       id: newUserQuery.rows[0].id,
@@ -67,4 +72,28 @@ router.post("/signup", async (req, res) => {
     res.json({ loggedIn: false, status: "Username taken" });
   }
 });
+
+
+
+
+router.post("/create_user", async (req, res) => {
+
+  console.log("create user");
+  const existingUser = await pool.query(
+    "SELECT reg_no from student WHERE reg_no=$1",
+    [req.body.username]
+  );
+
+  if (existingUser.rowCount === 0) {
+    // create student
+    
+    req.session.student = {
+      reg_no: req.body.username,
+    };
+    res.json({ createdUser: true, username: req.body.username });
+  } else {
+    res.json({ createdUser: false, status: "Student already exists with same reg_no." });
+  }
+});
+
 module.exports = router;
