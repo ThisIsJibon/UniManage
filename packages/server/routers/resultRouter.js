@@ -12,9 +12,9 @@ router
       res.status(200).json({
         status: "successful result query",
         results: resulltQuery.rows.length,
-        data: {
-          results: resulltQuery.rows,
-        },
+        data: 
+          resulltQuery.rows
+        ,
       });
     } catch (error) {
         console.log(error);
