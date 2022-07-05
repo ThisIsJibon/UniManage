@@ -5,7 +5,7 @@ import ResultFinder from '../components/api/ResultFinder';
 
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'Course ID', width: 130 },
+  { field: 'course_id', headerName: 'Course ID', width: 130 },
   { field: 'name', headerName: 'Course Title', width: 350 },
   { field: 'year', headerName: 'Year', width: 130,type:'integer' },
   { field: 'semester', headerName: 'Semester', width: 130,type:'integer' },
