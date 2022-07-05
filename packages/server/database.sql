@@ -67,6 +67,7 @@ CREATE TABLE Section (
 
 
 CREATE TABLE Course_Enrollment (
+  id SERIAL,
   section_id TEXT,
   reg_no INTEGER NOT NULL,
   grade FLOAT
@@ -200,25 +201,25 @@ INSERT INTO Course_Enrollment (section_id,reg_no,grade)
 
 --5.00 is invalid grade
 
-INSERT INTO Course_Enrollment VALUES ('CSE328-2022', 2018331002,4.00);
-INSERT INTO Course_Enrollment VALUES ('CSE328-2022', 2018331001,1.50);
-INSERT INTO Course_Enrollment VALUES ('CSE328-2022', 2018331003,3.75);
-INSERT INTO Course_Enrollment VALUES ('CSE328-2022', 2018331054,4.00);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331002,4.00);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331001,1.50);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331003,3.75);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331054,4.00);
 
-INSERT INTO Course_Enrollment VALUES ('PHY107D-2020', 2018331002,3.75);
-INSERT INTO Course_Enrollment VALUES ('PHY107D-2020', 2018331001,2.00);
-INSERT INTO Course_Enrollment VALUES ('PHY107D-2020', 2018331003,2.75);
-INSERT INTO Course_Enrollment VALUES ('PHY107D-2020', 2018331054,3.50);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331002,3.75);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331001,2.00);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331003,2.75);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331054,3.50);
 
-INSERT INTO Course_Enrollment VALUES ('IPE150-2021', 2018331002,2.00);
-INSERT INTO Course_Enrollment VALUES ('IPE150-2021', 2018331001,3.00);
-INSERT INTO Course_Enrollment VALUES ('IPE150-2021', 2018331003,3.25);
-INSERT INTO Course_Enrollment VALUES ('IPE150-2021', 2018331054,5.00);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331002,2.00);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331001,3.00);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331003,3.25);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331054,5.00);
 
-INSERT INTO Course_Enrollment VALUES ('BUS201D-2022', 2018331002,2.50);
-INSERT INTO Course_Enrollment VALUES ('BUS201D-2022', 2018331001,3.25);
-INSERT INTO Course_Enrollment VALUES ('BUS201D-2022', 2018331003,3.75);
-INSERT INTO Course_Enrollment VALUES ('BUS201D-2022', 2018331054,3.00);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331002,2.50);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331001,3.25);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331003,3.75);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331054,3.00);
 
 SELECT * FROM Course_Enrollment;
 
@@ -263,5 +264,5 @@ SELECT * FROM Time_Slot;
 SELECT * FROM student S 
 INNER JOIN Course_Enrollment ON Course_Enrollment.reg_no=s.reg_no 
 INNER JOIN Section ON Course_Enrollment.section_id= Section.section_id 
-INNER JOIN Course ON Course.course_id=Section.course_id 
+INNER JOIN Course ON Course.course_id=Section.course_id
 ORDER BY s.reg_no;

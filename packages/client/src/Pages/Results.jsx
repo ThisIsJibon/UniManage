@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import  UniNavbar  from './UniNavbar'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import ResultFinder from '../components/api/ResultFinder';
 
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'Course ID', width: 130 },
-  { field: 'title', headerName: 'Course Title', width: 350 },
+  { field: 'name', headerName: 'Course Title', width: 350 },
+  { field: 'year', headerName: 'Year', width: 130,type:'integer' },
   { field: 'semester', headerName: 'Semester', width: 130,type:'integer' },
   {
     field: 'credit',
@@ -20,7 +22,7 @@ const columns: GridColDef[] = [
     width: 130,
   },
   {
-    field: 'registration',
+    field: 'reg_no',
     headerName: 'Registration',
     type: 'integer',
     width: 130,
@@ -45,6 +47,28 @@ const rows = [
 
 
 function Results() {
+
+  
+  const [tableData, setTableData] = useState([])
+
+  const [rows, setRows] = useState(tableData);
+  const [deletedRows, setDeletedRows] = useState([]);
+
+  useEffect(() => {
+    const API_URL = "https://jsonplaceholder.typicode.com/posts";
+    async function fetchData() {
+      // await fetch('/result')
+      // .then((data) => data.json())
+      // .then((data) => setTableData(data.result))
+      const response = await ResultFinder.get("/");
+      console.log(response.data.result);
+      setTableData(response.data.result)
+    }
+    
+    fetchData();
+  }, []);
+
+
   return (
     <div>
       <UniNavbar/>
@@ -58,7 +82,7 @@ function Results() {
       
       <div style={{ height: 600, width: '100%',position:'absolute',bottom:0}}>
         <DataGrid
-          rows={rows}
+          rows={tableData}
           columns={columns}
           pageSize={9}
           rowsPerPageOptions={[9]}
