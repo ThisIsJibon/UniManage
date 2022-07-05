@@ -255,3 +255,13 @@ INSERT INTO Time_Slot (section_id,classroom_id,start_time,end_time)
   VALUES (1,1,'06:05','07:05');
 
 SELECT * FROM Time_Slot;
+
+
+--JOINS
+
+-- results
+SELECT * FROM student S 
+INNER JOIN Course_Enrollment ON Course_Enrollment.reg_no=s.reg_no 
+INNER JOIN Section ON Course_Enrollment.section_id= Section.section_id 
+INNER JOIN Course ON Course.course_id=Section.course_id 
+ORDER BY s.reg_no;

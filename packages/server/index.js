@@ -5,9 +5,12 @@ const helmet = require("helmet");
 const cors = require("cors");
 const authRouter = require("./routers/authRouter");
 const userRouter = require("./routers/userRouter");
+const resultRouter = require("./routers/resultRouter");
 const session = require("express-session");
 const server = require("http").createServer(app);
 require("dotenv").config();
+
+
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
@@ -16,13 +19,16 @@ const io = new Server(server, {
 });
 
 app.use(helmet());
+
 app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
   })
 );
+
 app.use(express.json());
+
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
@@ -40,6 +46,7 @@ app.use(
 );
 app.use("/auth", authRouter);
 app.use("/user",userRouter);
+app.use("/result",resultRouter)
 
 io.on("connect", socket => {});
 
