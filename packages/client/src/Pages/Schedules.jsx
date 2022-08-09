@@ -113,21 +113,15 @@ export const options = {
 };
 
 const Schedules = () => {
-  
-  const [userReg, setUserReg] = useState();
-   //const USER_REG = (localStorage.userToken);
-  // console.log(USER_REG);
 
    const [tableData, setTableData] = useState([])
    const [rows, setRows] = useState(tableData);
 
   useEffect(() => {
-    setUserReg(2018331002);
     async function fetchData() {
-      
-      console.log(userReg);
-      const response = await ScheduleFinder.get('/${userReg}');
-      console.log("shit end");
+  
+      const URL_STRING = "/" + localStorage.userToken.toString();
+      const response = await ScheduleFinder.get(URL_STRING);
       console.log(response.data.result);
     }
     fetchData();
