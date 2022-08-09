@@ -1,10 +1,10 @@
 
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import UniNavbar from './UniNavbar';
 import {UserData} from '../components/Chart/Data';
 import { Bar } from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
-
+import ScheduleFinder from '../components/api/ScheduleFinder';
 import { Chart } from "react-google-charts";
 
 const columns = [
@@ -113,19 +113,44 @@ export const options = {
 };
 
 const Schedules = () => {
-
   
+  const [userReg, setUserReg] = useState();
+   //const USER_REG = (localStorage.userToken);
+  // console.log(USER_REG);
+
+   const [tableData, setTableData] = useState([])
+   const [rows, setRows] = useState(tableData);
+
+  useEffect(() => {
+    setUserReg(2018331002);
+    async function fetchData() {
+      
+      console.log(userReg);
+      const response = await ScheduleFinder.get('/${userReg}');
+      console.log("shit end");
+      console.log(response.data.result);
+    }
+    fetchData();
+  }, []);
+
   return (
+
+    
+
     <div>
       <UniNavbar/>
-      <h2>Class Schedules</h2>
-      <Chart
-        chartType="Gantt"
-        width="100%"
-        height="50%"
-        data={data}
-        options={options}
-      />
+      
+      <div>
+        <h2>Class Schedules</h2>
+        <Chart
+          chartType="Gantt"
+          width="100%"
+          height="50%"
+          data={data}
+          options={options}
+        />
+      </div>
+      
       
     </div>
   )

@@ -222,6 +222,9 @@ INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 
 INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331003,3.75);
 INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331054,3.00);
 
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE121-2022', 2018331002,0.00);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331002,0.00);
+
 SELECT * FROM Course_Enrollment;
 
 
@@ -268,6 +271,8 @@ SELECT * FROM Time_Slot;
 --JOINS
 
 -- results
+
+
 select
   * 
 from student s
@@ -275,3 +280,12 @@ from student s
   inner join section se using (section_id) 
   inner join course c using (course_id)
 order by s.reg_no;
+
+
+-- get schedules for logged in user [grade 0.00 in course enrollment means ongoing course]
+
+select 
+  *
+from course_enrollment 
+inner join time_slot using(section_id)
+where reg_no = user.reg_no and grade = 0;
