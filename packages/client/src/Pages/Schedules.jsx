@@ -113,23 +113,54 @@ export const options = {
 };
 
 const Schedules = () => {
-
+  const dateHelper = (date,start)=>{
+    let d = date.toISOString()
+    let year = d.slice(0,4)
+    let mon = d.slice(5,7)
+    let day = d.slice(9,11)
+    let s = start.toString()
+    let sHour = s.slice(0,3)
+    let sMin = s.slice(4,6)
+    console.log({s,d,sHour,sMin})
+    let  result =  new Date(parseInt(year),parseInt(mon),parseInt(day),parseInt(sHour)+6,parseInt(sMin))
+  
+    return result.toString()
+  }
    const [tableData, setTableData] = useState([])
-   const [rows, setRows] = useState(tableData);
+   const [rows1, setRows1] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-  
+      let array = [];
       const URL_STRING = "/" + localStorage.userToken.toString();
       const response = await ScheduleFinder.get(URL_STRING);
       console.log(response.data.result);
+      
+      for (let x of response.data.result){
+        console.log('loop')
+        const {section_id, time_slot_id,date,classroom_id,start_time, end_time} = x;
+        let d = new Date(date)
+        d = d.toISOString()
+        let year = d.slice(0,4)
+        let mon = d.slice(5,7)
+        let day = d.slice(9,11)
+        let s = start_time.toString()
+        let sHour = s.slice(0,3)
+        let sMin = s.slice(4,6)
+        let e = end_time.toString()
+        let eHour = e.slice(0,3)
+        let eMin = e.slice(4,6)
+        let temp = [section_id, time_slot_id.toString(),classroom_id,new Date(parseInt(year),parseInt(mon),parseInt(day),parseInt(sHour),parseInt(sMin)),
+          new Date(parseInt(year),parseInt(mon),parseInt(day),parseInt(eHour),parseInt(eMin)),null,0,null];
+        setRows1(oldArray => [...oldArray,temp] )
+        
+      }
     }
     fetchData();
   }, []);
+console.log(rows1)
 
   return (
-
-    
 
     <div>
       <UniNavbar/>
@@ -140,11 +171,10 @@ const Schedules = () => {
           chartType="Gantt"
           width="100%"
           height="50%"
-          data={data}
+          data={ [columns, ...rows1]}
           options={options}
         />
       </div>
-      
       
     </div>
   )
