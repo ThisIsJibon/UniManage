@@ -1,9 +1,6 @@
 
 import React,{useState,useEffect} from 'react'
 import UniNavbar from './UniNavbar';
-import {UserData} from '../components/Chart/Data';
-import { Bar } from 'react-chartjs-2';
-import 'chartjs-adapter-date-fns';
 import ScheduleFinder from '../components/api/ScheduleFinder';
 import { Chart } from "react-google-charts";
 
