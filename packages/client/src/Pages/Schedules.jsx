@@ -150,7 +150,7 @@ const Schedules = () => {
         let e = end_time.toString()
         let eHour = e.slice(0,3)
         let eMin = e.slice(4,6)
-        let temp = [section_id, time_slot_id.toString(),classroom_id,new Date(parseInt(year),parseInt(mon),parseInt(day),parseInt(sHour),parseInt(sMin)),
+        let temp = [time_slot_id.toString(),section_id, classroom_id,new Date(parseInt(year),parseInt(mon),parseInt(day),parseInt(sHour),parseInt(sMin)),
           new Date(parseInt(year),parseInt(mon),parseInt(day),parseInt(eHour),parseInt(eMin)),null,0,null];
         setRows1(oldArray => [...oldArray,temp] )
         
