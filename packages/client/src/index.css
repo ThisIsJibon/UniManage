@@ -94,3 +94,9 @@ button {
 button:disabled {
   cursor: default;
 }
+
+.schedules_div {
+  padding: 20px;
+    -moz-box-sizing: border-box; 
+    box-sizing: border-box;
+}

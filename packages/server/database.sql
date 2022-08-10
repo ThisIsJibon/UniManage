@@ -97,9 +97,10 @@ CREATE TABLE Classroom (
 
 
 CREATE TABLE Time_Slot (
-  date DATE NOT NULL DEFAULT CURRENT_DATE PRIMARY KEY,
-  section_id INTEGER NOT NULL,
-  classroom_id INTEGER NOT NULL,
+  time_slot_id SERIAL PRIMARY KEY,
+  date DATE NOT NULL DEFAULT CURRENT_DATE,
+  section_id TEXT NOT NULL,
+  classroom_id TEXT NOT NULL,
   start_time TIME NOT NULL,
   end_time TIME NOT NULL
 );
@@ -221,6 +222,9 @@ INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 
 INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331003,3.75);
 INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331054,3.00);
 
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE121-2022', 2018331002,0.00);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331002,0.00);
+
 SELECT * FROM Course_Enrollment;
 
 
@@ -246,21 +250,29 @@ SELECT * FROM Head_of_Department;
 
 
 INSERT INTO Classroom (classroom_id,dept_id,room_num,building) 
-  VALUES ('IICT333','CSE',333,'IICT');
+  VALUES ('333-A','CSE',333,'IICT');
+INSERT INTO Classroom VALUES ('333-A','PHY',333,'A');
+INSERT INTO Classroom VALUES ('104-D','BUS',104,'D');
+INSERT INTO Classroom VALUES ('201-E','IPE',201,'E');
+INSERT INTO Classroom VALUES ('433-IICT','EEE',433,'IICT');
 
 SELECT * FROM Classroom;
 
 
 
 INSERT INTO Time_Slot (section_id,classroom_id,start_time,end_time) 
-  VALUES (1,1,'06:05','07:05');
-
+  VALUES ('CSE121-2022','333-A','11:05','12:05');
+INSERT INTO Time_Slot(section_id,classroom_id,start_time,end_time)  VALUES ('CSE328-2022','104-D','13:05','14:05');
+INSERT INTO Time_Slot(section_id,classroom_id,start_time,end_time)  VALUES ('IPE150-2022','201-E','15:05','16:05');
+INSERT INTO Time_Slot(section_id,classroom_id,start_time,end_time)  VALUES ('IPE150-2021','201-E','13:05','14:05');
 SELECT * FROM Time_Slot;
 
 
 --JOINS
 
 -- results
+
+
 select
   * 
 from student s
@@ -268,3 +280,12 @@ from student s
   inner join section se using (section_id) 
   inner join course c using (course_id)
 order by s.reg_no;
+
+
+-- get schedules for logged in user [grade 0.00 in course enrollment means ongoing course]
+
+select 
+  *
+from course_enrollment 
+inner join time_slot using(section_id)
+where reg_no = user.reg_no and grade = 0;
