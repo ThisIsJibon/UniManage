@@ -62,6 +62,15 @@ router.post("/signup", async (req, res) => {
       "INSERT INTO student(reg_no) values($1)",[req.body.username]
     );
 
+    const newStudentContactQyery = await pool.query(
+      "INSERT INTO student_email(reg_no) values($1)",
+      [req.body.username]
+    );
+    const newStudentEmailQyery = await pool.query(
+      "INSERT INTO student_contact(reg_no) values($1)",
+      [req.body.username]
+    );
+
     req.session.user = {
       username: req.body.username,
       id: newUserQuery.rows[0].id,

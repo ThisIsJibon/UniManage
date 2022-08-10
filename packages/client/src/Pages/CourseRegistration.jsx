@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 
 import UniNavbar from "./UniNavbar";
 import "../Assets/css/account.css";
@@ -8,12 +8,22 @@ import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
-  { field: "id", headerName: "Code", width: 150 },
+  {
+    field: "id",
+    headerName: "Code",
+    width: 150,
+    sortable: false,
+    headerAlign: "center",
+    align: "center",
+  },
   {
     field: "name",
     headerName: "Name",
     width: 360,
     editable: false,
+    sortable: false,
+    headerAlign: "center",
+    align: "center",
   },
   {
     field: "credit",
@@ -21,18 +31,26 @@ const columns = [
     width: 170,
     type: "number",
     editable: false,
+    headerAlign: "center",
+    align: "center",
   },
   {
     field: "major",
     headerName: "Is Major",
     width: 180,
     editable: false,
+    sortable: false,
+    headerAlign: "center",
+    align: "center",
   },
   {
     field: "type",
     headerName: "Type",
     width: 160,
     editable: false,
+    sortable: false,
+    headerAlign: "center",
+    align: "center",
   },
 ];
 
@@ -53,6 +71,31 @@ function handleclick(event) {
 }
 
 const CourseRegistration = () => {
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:4000/user/${localStorage.userToken}`
+        );
+
+        const userData = await response.json();
+        const user = userData.userData[0];
+        console.log(user);
+        setUserData(user);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    getUserInfo();
+  }, []);
+
+  const [userData,setUserData]=useState({
+    name: "",
+    dept_id: ""
+
+  });
+
   return (
     <div>
       <UniNavbar />
@@ -80,7 +123,7 @@ const CourseRegistration = () => {
                         type="text"
                         className="form-control"
                         disabled
-                        value="Mahinur Alam"
+                        value={userData.name}
                       />
                     </div>
                     <div className="col-md-4">
@@ -90,7 +133,7 @@ const CourseRegistration = () => {
                       <input
                         type="number"
                         className="form-control"
-                        value="2018331054"
+                        value={localStorage.userToken}
                         disabled
                       />
                     </div>
@@ -101,7 +144,7 @@ const CourseRegistration = () => {
                       <input
                         type="text"
                         className="form-control"
-                        value="CSE"
+                        value={userData.name}
                         disabled
                       />
                     </div>
@@ -172,6 +215,8 @@ const CourseRegistration = () => {
               rowsPerPageOptions={[5]}
               checkboxSelection
               disableSelectionOnClick
+              hideFooterPagination
+              disableColumnFilter
             />
           </Box>
         </div>

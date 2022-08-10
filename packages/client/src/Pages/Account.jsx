@@ -1,15 +1,35 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import UniNavbar from "./UniNavbar";
 import "../Assets/css/account.css"
 
+
 const Account = () => {
-  const [userData,setUserData] = useState ({
+
+ 
+
+  useEffect(() => {
+     const getUserInfo = async () => {
+       try {
+         const response = await fetch(
+           `http://localhost:4000/user/${localStorage.userToken}`
+         );
+
+         const userData= await response.json();
+         const user = userData.userData[0];
+         console.log(user)
+         setUserData(user)
+       } catch (err) {
+         console.log(err.message);
+       }
+     };
+    getUserInfo();
+  },[]);
+
+  const [userData, setUserData] = useState({
     name: "",
-    username: "",
     email: "",
-    reg: "",
-    dept: "",
+    dept_id: "select your Department",
     session: "",
     address: "",
     contact: "",
@@ -17,14 +37,8 @@ const Account = () => {
   const handleNameChange = (event) =>{
     setUserData({...userData,name:event.target.value});
   }
-  const handleUserNameChange = (event) => {
-    setUserData({ ...userData, username: event.target.value });
-  };
-  const handleRegChange = (event) => {
-    setUserData({ ...userData, reg: event.target.value });
-  };
-  const handleDeptChange = (event) => {
-    setUserData({ ...userData, dept: event.target.value });
+  const handleDepartmentChange = (event) => {
+    setUserData({ ...userData, dept_id: event.target.value });
   };
   const handleEmailChange = (event) => {
     setUserData({ ...userData, email: event.target.value });
@@ -44,13 +58,15 @@ const Account = () => {
     
     try{
       
-      const id=2018331054;
+      const id=localStorage.userToken;
       const body = {userData};
       const response = await fetch(`http://localhost:4000/user/edit/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+
+      console.log(response)
       
     }catch(err){
       console.log(err.message);
@@ -67,7 +83,7 @@ const Account = () => {
               <h3>Profile</h3>
               <hr />
             </div>
-            <form >
+            <form onSubmit={handleChange}>
               <div className="row mb-5 gx-5">
                 <div className="col-xxl-8 mb-5 mb-xxl-0">
                   <div className="bg-secondary-soft px-4 py-5 rounded">
@@ -85,19 +101,7 @@ const Account = () => {
                           onChange={handleNameChange}
                         />
                       </div>
-                      <div className="col-md-6">
-                        <label className="form-label" htmlFor="">
-                          User Name
-                        </label>
-                        <input
-                          name="username"
-                          type="text"
-                          className="form-control"
-                          value={localStorage.userToken}
-                          // onChange={handleUserNameChange}
-                          disabled
-                        />
-                      </div>
+
                       <div className="col-md-6">
                         <label className="form-label" htmlFor="">
                           Email
@@ -118,21 +122,33 @@ const Account = () => {
                           name="reg"
                           type="number"
                           className="form-control"
-                          value={userData.reg}
-                          onChange={handleRegChange}
+                          value={localStorage.userToken}
+                          disabled
                         />
                       </div>
                       <div className="col-md-6">
                         <label className="form-label" htmlFor="">
                           Department
                         </label>
-                        <input
-                          name="dept"
-                          type="text"
-                          className="form-control"
-                          value={userData.dept}
-                          onChange={handleDeptChange}
-                        />
+
+                        <select
+                          className="form-select"
+                          aria-label="Default select example"
+                          value={userData.dept_id}
+                          onChange={handleDepartmentChange}
+                        >
+                          <option value="elect your Department">
+                            select your Department
+                          </option>
+                          <option value="CSE">CSE</option>
+                          <option value="SWE">SWE</option>
+                          <option value="EEE">EEE</option>
+                          <option value="PME">PME</option>
+                          <option value="PHY">PHY</option>
+                          <option value="MAT">MAT</option>
+                          <option value="CHE">CHE</option>
+                          <option value="ENG">ENG</option>
+                        </select>
                       </div>
                       <div className="col-md-6">
                         <label className="form-label" htmlFor="">
@@ -203,7 +219,7 @@ const Account = () => {
                 </div>
               </div>
               <div className="d-md-flex justify-content-md-center text-center btnContainer">
-                <button onClick={handleChange} type="button" className="btn btn-primary btn-lg subBtn">
+                <button type="submit" className="btn btn-primary btn-lg subBtn">
                   Update
                 </button>
               </div>
