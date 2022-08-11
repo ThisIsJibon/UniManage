@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const authRouter = require("./routers/authRouter");
 const userRouter = require("./routers/userRouter");
+const departmentRouter = require("./routers/departmentRouter");
 const resultRouter = require("./routers/resultRouter");
 const scheduleRouter = require("./routers/scheduleRouter");
 const session = require("express-session");
@@ -47,8 +48,9 @@ app.use(
 );
 app.use("/auth", authRouter);
 app.use("/user",userRouter);
-app.use("/result",resultRouter)
-app.use("/schedule",scheduleRouter)
+app.use("/result",resultRouter);
+app.use("/schedule",scheduleRouter);
+app.use("/department",departmentRouter);
 
 io.on("connect", socket => {});
 

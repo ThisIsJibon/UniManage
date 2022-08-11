@@ -7,10 +7,11 @@ import "../Assets/css/account.css";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 
+
 const columns = [
   {
-    field: "id",
-    headerName: "Code",
+    field: "course_id",
+    headerName: "Course_id",
     width: 150,
     sortable: false,
     headerAlign: "center",
@@ -35,15 +36,6 @@ const columns = [
     align: "center",
   },
   {
-    field: "major",
-    headerName: "Is Major",
-    width: 180,
-    editable: false,
-    sortable: false,
-    headerAlign: "center",
-    align: "center",
-  },
-  {
     field: "type",
     headerName: "Type",
     width: 160,
@@ -54,23 +46,92 @@ const columns = [
   },
 ];
 
-const rows = [
-  { id: "CSE132", credit: 3, name: "Jon", major: 35, type: "theory" },
-  { id: "CSE134", credit: 2.5, name: "Cersei", major: 42, type: "theory" },
-  { id: "CSE232", credit: 1.5, name: "Jaime", major: 45, type: "theory" },
-  { id: "CSE321", credit: 3, name: "Arya", major: 16, type: "theory" },
-  { id: "CSE432", credit: 6, name: "Daenerys", major: null, type: "theory" },
-  { id: "CSE332", credit: 3.5, name: null, major: 150, type: "theory" },
-  { id: "CSE435", credit: 2.5, name: "Ferrara", major: 44, type: "theory" },
-  { id: "CSE132", credit: 1.5, name: "Rossini", major: 36, type: "theory" },
-  { id: "CSE239", credit: 3.5, name: "Harvey", major: 65, type: "theory" },
-];
+// const rows = [
+//   {
+//     id: 0,
+//     course_id: "CSE133",
+//     credit: 3,
+//     name: "C programming",
+//     type: "theory",
+//   },
+//   { id: 1, course_id: "CSE134", credit: 2.5, name: "DM", type: "theory" },
+//   { id: 2, course_id: "CSE232", credit: 1.5, name: "Java", type: "theory" },
+//   { id: 3, course_id: "CSE321", credit: 3, name: "OS", type: "theory" },
+//   { id: 4, course_id: "CSE432", credit: 6, name: "ML", type: "theory" },
+//   { id: 5, course_id: "CSE332", credit: 3.5, name: "DSP", type: "theory" },
+//   { id: 6, course_id: "CSE435", credit: 2.5, name: "AI", type: "theory" },
+//   { id: 7, course_id: "CSE132", credit: 1.5, name: "CP", type: "theory" },
+//   { id: 8, course_id: "CSE239", credit: 3.5, name: "DS", type: "theory" },
+// ];
 
-function handleclick(event) {
-  console.log("it is clicked");
-}
 
 const CourseRegistration = () => {
+
+
+  const [userData,setUserData]=useState({
+    name: "",
+    dept_id: ""
+
+  });
+
+
+  const [rows,setRows] = useState([]);
+
+  const [selectedRows,setSelectedRows] = useState([]);
+
+
+  const [usn,setUSN] = useState("USN");
+  const [semester, setSemester] = useState("Semester");
+
+  const handleUSNChange = (event) => {
+    console.log(event.target.value);
+    setUSN(event.target.value);
+  }
+
+  const handleSemesterChange = (event) => {
+  
+    console.log(event.target.value);
+    setSemester(event.target.value);
+
+
+  };
+
+
+
+  const handleClickChange = async (event) => {
+    event.preventDefault();
+
+    try{
+
+      let courseIDs = [];
+
+      selectedRows.forEach((x) =>{
+        // console.log(rows[x].course_id);
+        courseIDs.push(rows[x].course_id);
+      });
+
+      // console.log(courseIDs);
+
+      const body = { usn , courseIDs,reg_no :localStorage.userToken};
+      const response = await fetch(
+        `http://localhost:4000/user/course_registration`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
+
+      
+
+      console.log(response);
+
+    }catch(err){
+      console.log(err.message);
+    }
+
+  }
+
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -87,22 +148,66 @@ const CourseRegistration = () => {
         console.log(err.message);
       }
     };
+
     getUserInfo();
   }, []);
 
-  const [userData,setUserData]=useState({
-    name: "",
-    dept_id: ""
 
-  });
+
+
+
+  useEffect(() => {
+    const getSearchResult = async () => {
+      
+
+      if(usn !== "USN" && semester !== "Semester"){
+
+        console.log(usn);
+        console.log(semester);
+
+
+        try {
+          const body = { usn,semester };
+          const response = await fetch(
+            `http://localhost:4000/department/course`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+            }
+            
+
+          );
+
+          const courseData = await response.json();
+          let {courses} = courseData;
+          // console.log(courses);
+
+          courses.forEach((x,i) => {
+            // console.log(i,x);
+            x.id=i;
+            console.log(x.id)
+          });
+
+          setRows(courses);
+
+        } catch (err) {
+          console.log(err.message);
+        }
+
+
+      }
+
+      
+    };
+    getSearchResult();
+  }, [usn,semester]);
+
+
 
   return (
     <div>
       <UniNavbar />
-      {/* <button className="dashboard-button"> Register For Courses</button>
-      <button className="dashboard-button"> Check Registration Status</button>
-      <button className="dashboard-button">Payments</button>
-      <button className="dashboard-button"> Explore Courses</button> */}
 
       <div className="container">
         <div className="row">
@@ -144,7 +249,7 @@ const CourseRegistration = () => {
                       <input
                         type="text"
                         className="form-control"
-                        value={userData.name}
+                        value={userData.dept_id}
                         disabled
                       />
                     </div>
@@ -167,16 +272,18 @@ const CourseRegistration = () => {
                       <select
                         className="form-select"
                         aria-label="Default select example"
+                        value={usn}
+                        onChange={handleUSNChange}
                       >
-                        <option selected>Open this select menu</option>
-                        <option value="1">2022-1</option>
-                        <option value="2">2022-2</option>
-                        <option value="3">2023-1</option>
-                        <option value="4">2023-2</option>
-                        <option value="5">2024-1</option>
-                        <option value="6">2024-2</option>
-                        <option value="7">2025-1</option>
-                        <option value="8">2025-2</option>
+                        <option value="USN">Select USN</option>
+                        <option value="2022-1">2022-1</option>
+                        <option value="2022-2">2022-2</option>
+                        <option value="2023-1">2023-1</option>
+                        <option value="2023-2">2023-2</option>
+                        <option value="2024-1">2024-1</option>
+                        <option value="2024-2">2024-2</option>
+                        <option value="2025-1">2025-1</option>
+                        <option value="2025-2">2025-2</option>
                       </select>
                     </div>
 
@@ -188,8 +295,10 @@ const CourseRegistration = () => {
                       <select
                         className="form-select"
                         aria-label="Default select example"
+                        value={semester}
+                        onChange={handleSemesterChange}
                       >
-                        <option selected>Open this select menu</option>
+                        <option value="Semester">Select Semester</option>
                         <option value="1">1st Semester</option>
                         <option value="2">2nd Semester</option>
                         <option value="3">3rd Semester</option>
@@ -211,17 +320,25 @@ const CourseRegistration = () => {
             <DataGrid
               rows={rows}
               columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
+              // pageSize={20}
+              // rowsPerPageOptions={[5]}
               checkboxSelection
               disableSelectionOnClick
               hideFooterPagination
               disableColumnFilter
+              onSelectionModelChange={(newSelection) => {
+                console.log(newSelection);
+                setSelectedRows(newSelection);
+              }}
             />
           </Box>
         </div>
         <div className="d-md-flex justify-content-md-center text-center btnContainer">
-          <button type="button" className="btn btn-primary btn-lg subBtn">
+          <button
+            onClick={handleClickChange}
+            type="button"
+            className="btn btn-primary btn-lg subBtn"
+          >
             Update
           </button>
         </div>

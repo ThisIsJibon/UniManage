@@ -54,21 +54,25 @@ CREATE TABLE Course (
   dept_id TEXT NOT NULL,
   name TEXT NOT NULL,
   credit FLOAT NOT NULL,
-  semester INTEGER NOT NULL
+  type TEXT NOT NULL
 );
 
 
 CREATE TABLE Section (
-  section_id TEXT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
+  section_id TEXT NOT NULL,
   course_id TEXT NOT NULL,
   teacher_id INTEGER NOT NULL,
-  year INTEGER NOT NULL
+  semester INTEGER NOT NULL,
+  year INTEGER NOT NULL,
+  phase INTEGER NOT NULL
 );
 
 
 CREATE TABLE Course_Enrollment (
   id SERIAL,
-  section_id TEXT,
+  section_id TEXT NOT NULL,
+  course_id TEXT NOT NULL,
   reg_no INTEGER NOT NULL,
   grade FLOAT
 );
@@ -158,74 +162,78 @@ INSERT INTO Teacher_Contact (teacher_id,contact)
 SELECT * FROM Teacher_Contact;
 
 
-INSERT INTO Course (course_id,dept_id,name,credit,semester) 
-  VALUES ('CSE121', 'CSE', 'Data Structure',3.0,1);
+INSERT INTO Course (course_id,dept_id,name,credit,type) 
+  VALUES ('CSE121', 'CSE', 'Data Structure',3.0,'theory');
 
-INSERT INTO Course VALUES('CSE150','CSE','Competitive Programming',1.5, 1);
-INSERT INTO Course VALUES('CSE250','CSE','Project Work',1.5, 3);
-INSERT INTO Course VALUES('IPE150','IPE','IPE Workshop',1.0, 1);
-INSERT INTO Course VALUES('IPE220','IPE','IPE Graphics',2.0, 4);
-INSERT INTO Course VALUES('CSE333','CSE','Database Systems',3.00, 5);
-INSERT INTO Course VALUES('CSE327','CSE','Database Systems Lab',2.00, 5);
-INSERT INTO Course VALUES('CSE328','CSE','Operating Systems',1.5, 1);
-INSERT INTO Course VALUES('CSE329','CSE','Operating Systems Lab',1.5, 1);
-INSERT INTO Course VALUES('CSE233','CSE','Data Structures',3.00, 3);
-INSERT INTO Course VALUES('CSE234','CSE','Data Structures Lab',2.00, 3);
-INSERT INTO Course VALUES('CSE242','CSE','Numerical Analysis',3.00, 4);
-INSERT INTO Course VALUES('CSE243','CSE','Numerical Analysis Lab',1.00, 4);
-INSERT INTO Course VALUES('BUS201D','BBA','Accounting and Finance',3.00, 3);
-INSERT INTO Course VALUES('ECO203D','ECO','Basic Economics',3.00, 4);
-INSERT INTO Course VALUES('PHY107D','PHY','Linear Optics',3.00, 1);
+INSERT INTO Course VALUES('CSE150','CSE','Competitive Programming',1.5,'lab');
+INSERT INTO Course VALUES('CSE250','CSE','Project Work',1.5,'lab');
+INSERT INTO Course VALUES('IPE150','IPE','IPE Workshop',1.0,'theory');
+INSERT INTO Course VALUES('IPE220','IPE','IPE Graphics',2.0,'lab');
+INSERT INTO Course VALUES('CSE333','CSE','Database Systems',3.00,'theory');
+INSERT INTO Course VALUES('CSE327','CSE','Database Systems Lab',2.00,'lab');
+INSERT INTO Course VALUES('CSE328','CSE','Operating Systems',1.5,'theory');
+INSERT INTO Course VALUES('CSE329','CSE','Operating Systems Lab',1.5,'lab');
+INSERT INTO Course VALUES('CSE233','CSE','Data Structures',3.00,'theory');
+INSERT INTO Course VALUES('CSE234','CSE','Data Structures Lab',2.00,'lab');
+INSERT INTO Course VALUES('CSE242','CSE','Numerical Analysis',3.00,'theory');
+INSERT INTO Course VALUES('CSE243','CSE','Numerical Analysis Lab',1.00,'lab');
+INSERT INTO Course VALUES('BUS201D','BBA','Accounting and Finance',3.00,'theory');
+INSERT INTO Course VALUES('ECO203D','ECO','Basic Economics',3.00,'theory');
+INSERT INTO Course VALUES('PHY107D','PHY','Linear Optics',3.00,'theory');
 
 
 SELECT * FROM Course;
 
 
-INSERT INTO Section (section_id,course_id,teacher_id,year) 
-  VALUES ('CSE121-2022','CSE121',1,2022);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) 
+  VALUES ('2022-1','CSE121',1,1,2022,1);
 
-INSERT INTO Section VALUES ('CSE328-2022','CSE328',2,2022);
-INSERT INTO Section VALUES ('BUS201D-2022','BUS201D',5,2022);
-INSERT INTO Section VALUES ('PHY107D-2020','PHY107D',4,2020);
-INSERT INTO Section VALUES ('CSE328-2021','CSE328',2,2021);
-INSERT INTO Section VALUES ('BUS201D-2021','BUS201D',5,2021);
-INSERT INTO Section VALUES ('IPE150-2021','IPE150',6,2021);
-INSERT INTO Section VALUES ('IPE150-2022','IPE150',6,2022);
-INSERT INTO Section VALUES ('IPE120-2022','IPE120',6,2022);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2022-1','CSE328',2,1,2022,1);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2022-2','BUS201D',5,2,2022,2);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2023-1','PHY107D',4,3,2023,1);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2023-1','CSE328',2,1,2023,1);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2023-2','BUS201D',5,2,2023,2);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2023-2','IPE150',6,2,2023,2);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2022-1','IPE150',1,1,2022,1);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2022-2','IPE120',6,2,2022,2);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2022-1','EEE150',1,1,2022,1);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2022-2','EEE120',6,2,2022,2);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2022-1','IPE170',1,1,2022,1);
+INSERT INTO Section (section_id,course_id,teacher_id,semester,year,phase) VALUES ('2022-2','IPE180',6,2,2022,2);
 
 
 SELECT * FROM Section;
 
 
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) 
-  VALUES (1, 2018331002,5.00);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) 
+--   VALUES (1, 2018331002,5.00);
 
---5.00 is invalid grade
+-- --5.00 is invalid grade
 
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331002,4.00);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331001,1.50);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331003,3.75);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331054,4.00);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331002,4.00);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331001,1.50);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331003,3.75);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331054,4.00);
 
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331002,3.75);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331001,2.00);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331003,2.75);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331054,3.50);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331002,3.75);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331001,2.00);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331003,2.75);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('PHY107D-2020', 2018331054,3.50);
 
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331002,2.00);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331001,3.00);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331003,3.25);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331054,5.00);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331002,2.00);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331001,3.00);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331003,3.25);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331054,5.00);
 
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331002,2.50);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331001,3.25);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331003,3.75);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331054,3.00);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331002,2.50);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331001,3.25);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331003,3.75);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331054,3.00);
 
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE121-2022', 2018331002,0.00);
-INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331002,0.00);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE121-2022', 2018331002,0.00);
+-- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331002,0.00);
 
-SELECT * FROM Course_Enrollment;
+-- SELECT * FROM Course_Enrollment;
 
 
 
@@ -289,3 +297,14 @@ select
 from course_enrollment 
 inner join time_slot using(section_id)
 where reg_no = user.reg_no and grade = 0;
+
+
+----course registration page populate
+SELECT * 
+FROM course JOIN section USING(course_id)
+WHERE section_id = "2022-1" and semester = 1;
+
+-- result page populate
+SELECT course_id,name,semester,credit,grade FROM 
+  section JOIN course_enrollment USING(section_id,course_id)
+  JOIN course  USING (course_id);

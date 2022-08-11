@@ -23,7 +23,30 @@ const Account = () => {
          console.log(err.message);
        }
      };
+
+
+     const getAllDepartmentInfo  = async () =>{
+
+        try {
+          const getAllDepartment = await fetch(
+            `http://localhost:4000/department/all`
+          );
+          const departmentData =await getAllDepartment.json();
+          const department = departmentData.department;
+          console.log(department);
+
+          setDepartmentData(department);
+
+        } catch (err) {
+          console.log(err.message);
+        }
+
+     };
+
+    getAllDepartmentInfo();
     getUserInfo();
+    
+
   },[]);
 
   const [userData, setUserData] = useState({
@@ -34,6 +57,11 @@ const Account = () => {
     address: "",
     contact: "",
   });
+
+
+  const [departmentData, setDepartmentData] = useState([]);
+
+
   const handleNameChange = (event) =>{
     setUserData({...userData,name:event.target.value});
   }
@@ -137,17 +165,13 @@ const Account = () => {
                           value={userData.dept_id}
                           onChange={handleDepartmentChange}
                         >
-                          <option value="elect your Department">
+                          <option value="select your Department">
                             select your Department
                           </option>
-                          <option value="CSE">CSE</option>
-                          <option value="SWE">SWE</option>
-                          <option value="EEE">EEE</option>
-                          <option value="PME">PME</option>
-                          <option value="PHY">PHY</option>
-                          <option value="MAT">MAT</option>
-                          <option value="CHE">CHE</option>
-                          <option value="ENG">ENG</option>
+                          {departmentData.map((data) => (
+                            <option value={data.dept_id}>{data.dept_id}</option>
+                          ))}
+
                         </select>
                       </div>
                       <div className="col-md-6">
