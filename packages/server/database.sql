@@ -103,6 +103,7 @@ CREATE TABLE Classroom (
 CREATE TABLE Time_Slot (
   time_slot_id SERIAL PRIMARY KEY,
   date DATE NOT NULL DEFAULT CURRENT_DATE,
+  course_id TEXT NOT NULL,
   section_id TEXT NOT NULL,
   classroom_id TEXT NOT NULL,
   start_time TIME NOT NULL,
@@ -149,7 +150,7 @@ SELECT * FROM Teacher;
 
 
 INSERT INTO Teacher_Email (teacher_id,email) 
-  VALUES (1,'mridul@gmail.com');
+  VALUES (1,'ab@gmail.com');
 
 
 SELECT * FROM Teacher_Email;
@@ -225,13 +226,13 @@ SELECT * FROM Section;
 -- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331003,3.25);
 -- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('IPE150-2021', 2018331054,5.00);
 
--- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331002,2.50);
--- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331001,3.25);
--- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331003,3.75);
--- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('BUS201D-2022', 2018331054,3.00);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade,course_id) VALUES ('2022-2', 2018331002,2.50,'BUS201D');
+INSERT INTO Course_Enrollment (section_id,reg_no,grade,course_id) VALUES ('2022-2', 2018331001,3.25,'BUS201D');
+INSERT INTO Course_Enrollment (section_id,reg_no,grade,course_id) VALUES ('2022-2', 2018331003,3.75,'BUS201D');
+INSERT INTO Course_Enrollment (section_id,reg_no,grade,course_id) VALUES ('2022-2', 2018331054,3.00,'BUS201D');
 
--- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE121-2022', 2018331002,0.00);
--- INSERT INTO Course_Enrollment (section_id,reg_no,grade) VALUES ('CSE328-2022', 2018331002,0.00);
+INSERT INTO Course_Enrollment (section_id,reg_no,grade,course_id) VALUES ('2022-1', 2018331002,0.00,'CSE121');
+INSERT INTO Course_Enrollment (section_id,reg_no,grade,course_id) VALUES ('2022-1', 2018331002,0.00,'CSE328');
 
 -- SELECT * FROM Course_Enrollment;
 
@@ -268,11 +269,11 @@ SELECT * FROM Classroom;
 
 
 
-INSERT INTO Time_Slot (section_id,classroom_id,start_time,end_time) 
-  VALUES ('CSE121-2022','333-A','11:05','12:05');
-INSERT INTO Time_Slot(section_id,classroom_id,start_time,end_time)  VALUES ('CSE328-2022','104-D','13:05','14:05');
-INSERT INTO Time_Slot(section_id,classroom_id,start_time,end_time)  VALUES ('IPE150-2022','201-E','15:05','16:05');
-INSERT INTO Time_Slot(section_id,classroom_id,start_time,end_time)  VALUES ('IPE150-2021','201-E','13:05','14:05');
+INSERT INTO Time_Slot (section_id,course_id,classroom_id,start_time,end_time) 
+  VALUES ('2022-1','CSE121','333-A','11:05','12:05');
+INSERT INTO Time_Slot(section_id,course_id,classroom_id,start_time,end_time)  VALUES ('2022-1','CSE328','104-D','13:05','14:05');
+INSERT INTO Time_Slot(section_id,course_id,classroom_id,start_time,end_time)  VALUES ('2022-2','BUS201D','201-E','15:05','16:05');
+INSERT INTO Time_Slot(section_id,course_id,classroom_id,start_time,end_time)  VALUES ('2023-2','BUS201D','201-E','13:05','14:05');
 SELECT * FROM Time_Slot;
 
 

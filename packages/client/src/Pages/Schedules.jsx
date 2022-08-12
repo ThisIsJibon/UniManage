@@ -3,7 +3,7 @@ import React,{useState,useEffect} from 'react'
 import UniNavbar from './UniNavbar';
 import ScheduleFinder from '../components/api/ScheduleFinder';
 import { Chart } from "react-google-charts";
-
+import 'bootstrap/dist/css/bootstrap.css';
 const columns = [
   { type: "string", label: "Task ID" },
   { type: "string", label: "Task Name" },
@@ -131,11 +131,10 @@ const Schedules = () => {
       let array = [];
       const URL_STRING = "/" + localStorage.userToken.toString();
       const response = await ScheduleFinder.get(URL_STRING);
-      console.log(response.data.result);
       
       for (let x of response.data.result){
         console.log('loop')
-        const {section_id, time_slot_id,date,classroom_id,start_time, end_time} = x;
+        const {course_id, time_slot_id,date,classroom_id,start_time, end_time} = x;
         let d = new Date(date)
         d = d.toISOString()
         let year = d.slice(0,4)
@@ -147,7 +146,7 @@ const Schedules = () => {
         let e = end_time.toString()
         let eHour = e.slice(0,3)
         let eMin = e.slice(4,6)
-        let temp = [time_slot_id.toString(),section_id, classroom_id,new Date(parseInt(year),parseInt(mon),parseInt(day),parseInt(sHour),parseInt(sMin)),
+        let temp = [time_slot_id.toString(),course_id, classroom_id,new Date(parseInt(year),parseInt(mon),parseInt(day),parseInt(sHour),parseInt(sMin)),
           new Date(parseInt(year),parseInt(mon),parseInt(day),parseInt(eHour),parseInt(eMin)),null,0,null];
         setRows1(oldArray => [...oldArray,temp] )
         
@@ -162,8 +161,9 @@ console.log(rows1)
     <div>
       <UniNavbar/>
       
-      <div>
+      <div class="p-5">
         <h2>Class Schedules</h2>
+        <hr/>
         <Chart
           chartType="Gantt"
           width="100%"

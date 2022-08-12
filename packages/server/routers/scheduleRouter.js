@@ -7,7 +7,7 @@ router
   .get(async (req, res) => {
     try {
         const resulltQuery = await pool.query(
-        "select * from course_enrollment inner join time_slot using(section_id) where reg_no = $1 and grade = 0",
+        "select * from course_enrollment inner join time_slot using(section_id,course_id) where reg_no = $1 and grade = 0",
         [req.body.reg_no]
       );
       res.status(200).json({

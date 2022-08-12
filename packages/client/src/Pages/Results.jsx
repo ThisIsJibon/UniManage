@@ -183,7 +183,7 @@ const Results = () => {
         const data = await response.json();
         const {resultData} = data;
 
-        // console.log(resultData);
+         console.log(resultData);
         resultData.forEach((x,i) => {
           x.id=i;
         });
