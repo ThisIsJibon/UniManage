@@ -126,6 +126,8 @@ const CourseRegistration = () => {
 
       console.log(response);
 
+      setRows([]);
+
     }catch(err){
       console.log(err.message);
     }

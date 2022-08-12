@@ -165,8 +165,8 @@ const Account = () => {
                           value={userData.dept_id}
                           onChange={handleDepartmentChange}
                         >
-                          <option value="select your Department">
-                            select your Department
+                          <option value="select department">
+                            select department
                           </option>
                           {departmentData.map((data) => (
                             <option value={data.dept_id}>{data.dept_id}</option>

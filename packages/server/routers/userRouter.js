@@ -106,7 +106,7 @@ router.route("/result/:id").get(async (req,res) => {
     const getAllResult = await pool.query(
       `SELECT course_id,name,semester,credit,grade FROM 
         section JOIN course_enrollment USING(section_id,course_id)
-        JOIN course  USING (course_id) WHERE reg_no = $1`,
+        JOIN course  USING (course_id) WHERE reg_no = $1 AND grade>0`,
       [id]
     );
 
